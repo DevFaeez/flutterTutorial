@@ -1,0 +1,598 @@
+1. Stateless vs Stateful
+
+Stateless: Applikasi yang tidak membutuhkan perubahan state/keadaan
+statefull: applikasi yang membutuhkan perubahan state/keadaan 
+
+//////////////////////////////////////////////////////////
+
+2. Widget Dasar
+
+import 'package:flutter/material.dart';
+
+void main() {
+
+  runApp(MyApp());
+}
+
+
+class MyApp extends StatelessWidget {
+
+@override
+  Widget build(BuildContext context) {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          // backgroundColor: Color.fromARGB(236, 241, 35, 35),  //tanpa s untuk custome
+          backgroundColor: Colors.green,                      //dengan s untuk default color like red green 
+          appBar: AppBar(
+            title: Text("My App"),
+          ),
+          body: Center(
+            child: Text("Halo"),
+          ),
+        ),
+      );
+  }
+}
+
+///////////////////////////////////////////////
+
+3. Text Widget
+
+import 'package:flutter/material.dart';
+
+void main() {
+
+  runApp(MyApp());
+}
+
+
+class MyApp extends StatelessWidget {
+
+@override
+  Widget build(BuildContext context) {
+    
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          // backgroundColor: Color.fromARGB(236, 241, 35, 35),  //tanpa s untuk custome
+          // backgroundColor: Colors.green,                      //dengan s untuk default color like red green 
+          appBar: AppBar(
+            title: Text("My App"),
+          ),
+          body: Center(
+            child: Text(
+              "Haloooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
+              maxLines: 2, //set bilangan line yang baling banyak untuk text tersebut
+              overflow: TextOverflow.ellipsis,  //memberitahu text terlalu panjang dengan menambah ...
+              // overflow: TextOverflow.fade,      // sama tetapi pada line paling bawah akan dibuat fade
+              textAlign: TextAlign.center,   //untuk center text bagi garis pendek(right, left, center , justify) 
+              style: TextStyle(
+                  backgroundColor: Colors.cyanAccent,  //text backgorund color
+                  color: Colors.black, //text color
+                  fontSize: 24, //font size
+                  fontWeight: FontWeight.bold, //fond weight
+                  letterSpacing: 10, //latter space
+                  fontFamily: 'Stick',
+                  decoration: TextDecoration.underline, //bagi decoration untk line seperti overline, line through underline
+                  decorationStyle: TextDecorationStyle.wavy,  //bagi decoration untuk line
+                  decorationColor: Colors.red,  //bagi color untuk decoration
+                  decorationThickness: 3, //thickness line
+              ),
+            ),
+          ),
+        ),
+      );
+  }
+}
+
+//////////////////////////////////////////////////
+
+4. Visible and Invisible Widget
+
+Visible: Text() , AppBar(), Icon()
+Invisible: Row(), Stack(), Column(), Center()
+Visible & Invisible: Container()
+
+Column() : Digunakan menyusun widget-widget ke bawah, menjadi maximun height
+Row(): Digunakan menyusun widget-widget ke samping, menjadi maximun width
+Stack(): Digunakan untuk menyusun widget-widget ke depan
+
+//column
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+//short cut: stl
+class MyApp extends StatelessWidget {
+
+@override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Collumn"),  
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center, //set kedudkan atas bawah
+          crossAxisAlignment: CrossAxisAlignment.end,  //set kedukan kanan kiri
+          children: [
+            Container(
+              width: 200,
+              height: 50,
+              color: Colors.blueAccent,
+            ),
+            Container(
+              width: 50,
+              height: 50,
+              color: Colors.black,
+            ),
+            Container(
+              width: 100,
+              height: 50,
+              color: Colors.pink,
+            ),
+            Container(
+              width: 300,
+              height: 50,
+              color: Colors.yellow,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+//Row
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+//short cut: stl
+class MyApp extends StatelessWidget {
+
+@override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Row"),  
+        ),
+        body: Row(
+          mainAxisAlignment: MainAxisAlignment.start, //set kedudkan atas bawah
+          crossAxisAlignment: CrossAxisAlignment.start,  //set kedukan kanan kiri
+          children: [
+            Container(
+              height: 200,
+              width: 50,
+              color: Colors.blueAccent,
+            ),
+            Container(
+              height: 50,
+              width: 50,
+              color: Colors.black,
+            ),
+            Container(
+              height: 100,
+              width: 50,
+              color: Colors.pink,
+            ),
+            Container(
+              height: 300,
+              width: 50,
+              color: Colors.yellow,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+//stack
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+//short cut: stl
+class MyApp extends StatelessWidget {
+
+@override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Row"),  
+        ),
+        body: Stack(
+          children: [
+            Container(
+              height: 400,
+              width: 400,
+              color: Colors.blueAccent,
+            ),
+            Container(
+              height: 300,
+              width: 300,
+              color: Colors.black,
+            ),
+            Container(
+              height: 200,
+              width: 200,
+              color: Colors.pink,
+            ),
+            Container(
+              height: 100,
+              width: 100,
+              color: Colors.yellow,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+///////////////////////////////////////////
+
+5. List View
+//cara 1
+
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    
+      return MaterialApp(
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text("LIST"),
+          ),
+          body: ListView(  //kalau gunakan colloum untuk width and height 300px, 
+                           // maka tidak bole scrool dan mungkin akan ada bahagian yang hilang
+                           //jadi tidak boleh gunakan column, maka ListView berguna saat ini
+            // scrollDirection: Axis.horizontal, : untuk horizontal scrool
+            children: [
+              Container(
+                // child: Text("HELOO"),
+                // style: TextStyle(
+                //     fontSize: 24,
+                // ),
+                width: 300,
+                height: 300,
+                color: Colors.red,
+              ),
+              Container(
+                width: 300,
+                height: 300,
+                color: Colors.green,
+              ),
+              Container(
+                width: 300,
+                height: 300,
+                color: Colors.yellow,
+              ),
+              Container(
+                width: 300,
+                height: 300,
+                color: Colors.amber,
+              ),
+            ],
+          ),
+        ),
+      );
+
+
+
+  }
+}
+
+//cara 2
+
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+
+    List<Widget> myList = [
+              Container(
+                // child: Text("HELOO"),
+                // style: TextStyle(
+                //     fontSize: 24,
+                // ),
+                width: 300,
+                height: 300,
+                color: Colors.red,
+              ),
+              Container(
+                width: 300,
+                height: 300,
+                color: Colors.green,
+              ),
+              Container(
+                width: 300,
+                height: 300,
+                color: Colors.yellow,
+              ),
+              Container(
+                width: 300,
+                height: 300,
+                color: Colors.amber,
+              ),
+            ];
+
+      return MaterialApp(
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text("LIST"),
+          ),
+          body: ListView(  //kalau gunakan colloum untuk width and height 300px, 
+                           // maka tidak bole scrool dan mungkin akan ada bahagian yang hilang
+                           //jadi tidak boleh gunakan column, maka ListView berguna saat ini
+            // scrollDirection: Axis.horizontal, : untuk horizontal scrool
+            children: myList,
+          ),
+        ),
+      );
+
+
+
+  }
+}
+
+
+//cara 3: ListBuilder
+
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    
+    List<Color> myColor = [Colors.black, Colors.green, Colors.yellow, Colors.pink,Colors.black, Colors.green, Colors.yellow, Colors.pink];
+
+      return MaterialApp(
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text("LIST"),
+          ),
+          body: ListView.builder(
+            itemCount: myColor.length,
+            itemBuilder: (context, index) {
+              return Container(
+                height: 200,
+                width: 300,
+                color: myColor[index], 
+              );
+            },
+          )
+        ),
+      );
+
+
+
+  }
+}
+
+//cara 4 List separeted
+
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    
+    List<Color> myColor = [Colors.black, Colors.green, Colors.yellow, Colors.pink];
+
+      return MaterialApp(
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text("LIST"),
+          ),
+          body: ListView.separated(
+            separatorBuilder: (context, index) {
+              //cara
+              // return Container(
+              //   height: 50,
+              //   color: Colors.grey,
+
+              return Divider(
+                color: Colors.grey,
+              );
+              
+            },
+            itemCount: myColor.length,
+            itemBuilder: (context, index) {
+              return Container(
+                height: 200,
+                width: 300,
+                color: myColor[index], 
+              );
+            },
+          )
+        ),
+      );
+
+
+
+  }
+}
+
+//cara 5
+
+
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    
+    List<Color> myColor = [Colors.black, Colors.green, Colors.yellow, Colors.pink];
+
+      return MaterialApp(
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text("LIST"),
+          ),
+          body: ListView.separated(
+            separatorBuilder: (context, index) {
+              //cara
+              // return Container(
+              //   height: 50,
+              //   color: Colors.grey,
+
+              return Divider(
+                color: Colors.grey,
+              );
+              
+            },
+            itemCount: myColor.length,
+            itemBuilder: (context, index) {
+              return Text("HELLLO");
+              
+            },
+          )
+        ),
+      );
+
+
+
+  }
+}
+
+//cara 6: print auto number
+
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+
+    final List<Widget> myList = List.generate(
+    100,
+      (index) => Text(
+      index.toString(),
+      ),
+    );
+    
+    final List<Color> myColor = [Colors.black, Colors.green, Colors.yellow, Colors.pink];
+
+      return MaterialApp(
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text("LIST"),
+          ),
+          body: ListView(
+            children: myList,
+        ),
+      ),
+      );
+  }
+}
+
+//cara 7
+
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+
+    final List<Widget> myList = List.generate(
+    100,
+      (index) => Text(
+      "${index + 1}",
+      style: TextStyle(
+        fontSize: 22 + double.parse(index.toString()),
+      ),
+      ),
+    );
+    
+    final List<Color> myColor = [Colors.black, Colors.green, Colors.yellow, Colors.pink];
+
+      return MaterialApp(
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text("LIST"),
+          ),
+          body: ListView(
+            children: myList,
+        ),
+      ),
+      );
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
