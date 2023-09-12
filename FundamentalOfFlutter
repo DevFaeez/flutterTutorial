@@ -579,7 +579,223 @@ class MyApp extends StatelessWidget {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+6. List Tile
 
+//cara 1
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("MY CHAT"),
+        ),
+        body: ListView(
+          children: [
+            ListTile(
+              title: Text("Fais Nasir"),
+              subtitle: Text("Jom pergi makan??"),
+              leading: CircleAvatar(),
+              trailing: Text("11.10"),
+              tileColor: Colors.purpleAccent,
+            ),
+            Divider(
+              color: Colors.black,
+              height: 1,
+            ),
+            ListTile( 
+              title: Text("Fais Nasir"), //untuk main text
+              subtitle: Text("Jom pergi makan??"), //untuk second text
+              leading: CircleAvatar(), //untuk logo
+              trailing: Text("11.10"), //untuk jam
+              tileColor: Colors.amber, //to give color
+            ),
+            Divider(
+              color: Colors.black,
+              height: 1,
+            ),
+            ListTile(
+              title: Text("Fais Nasir"),
+              subtitle: Text("Jom pergi makan??"),
+              leading: CircleAvatar(),
+              trailing: Text("11.10"),
+              tileColor: Color.fromARGB(255, 114, 114, 114), //to give color              
+            ),
+            Divider(
+              color: Colors.black,
+              height: 1,
+            ),
+            ListTile(
+              title: Text("Fais Nasir"),
+              subtitle: Text("Jom pergi makan??"),
+              leading: CircleAvatar(),
+              trailing: Text("11.10"),
+              tileColor: Color.fromARGB(255, 229, 2, 6),
+            ),
+            Divider(
+              color: Colors.black,
+              height: 1,
+            ),
+            ListTile(
+              title: Text("Fais Nasir"),
+              subtitle: Text("Jom pergi makan??"),
+              leading: CircleAvatar(),
+              trailing: Text("11.10"),
+              tileColor: Color.fromARGB(255, 85, 213, 0),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+//cara 2
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("MY CHAT"),
+        ),
+        body: ListView(
+          children: [
+            ListTile(
+              contentPadding: EdgeInsets.all(20), //give padding for all
+              title: Text("Fais Nasir"),
+              subtitle: Text("Jom pergi makan  Fais Nasir Fais Nasir Fais Nasir Fais Nasir Fais Nasir Fais Nasir Fais Nasir Fais Nasir??",
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              ),
+              leading: CircleAvatar(),
+              trailing: Text("11.10"),
+              // dense: true, //mengecilkan size bagi jimatkan ruang
+            ),
+            Divider(
+              color: Colors.black,
+              height: 1,
+            ),
+            ListTile( 
+              contentPadding: EdgeInsets.only(top: 50, bottom: 40, right: 10), // Give padding only to the top
+              title: Text("Fais Nasir"), //untuk main text
+              subtitle: Text("Jom pergi makan??"), //untuk second text
+              leading: CircleAvatar(), //untuk logo
+              trailing: Text("11.10"), //untuk jam
+            ),
+            Divider(
+              color: Colors.black,
+              height: 1,
+            ),
+            ListTile(
+              contentPadding: EdgeInsets.symmetric(
+                vertical: 10,
+                horizontal: 50,
+              ),
+              title: Text("Fais Nasir"),
+              subtitle: Text("Jom pergi makan??"),
+              leading: CircleAvatar(),
+              trailing: Text("11.10"),
+            ),
+            Divider(
+              color: Colors.black,
+              height: 1,
+            ),
+            ListTile(
+              title: Text("Fais Nasir"),
+              subtitle: Text("Jom pergi makan??"),
+              leading: CircleAvatar(),
+              trailing: Text("11.10"),
+            ),
+            Divider(
+              color: Colors.black,
+              height: 1,
+            ),
+            ListTile(
+              title: Text("Fais Nasir"),
+              subtitle: Text("Jom pergi makan??"),
+              leading: CircleAvatar(),
+              trailing: Text("11.10"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+////////////////////////////////////////////////////////////////
+
+7. Image Widget
+
+* Format yg support: JPEG, PNG, GIF, WebP, BMP,WBMP
+* Jenis Provider Image: Asset, Network, File, Memory
+* Kecepatan Provider: cepat > lambat
+                    : Memory > Asset > File > Network
+
+//cara 1
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("MY CHAT"),
+        ),
+        body: Center(
+          child: Container(
+            width: 350,
+            height: 500,
+            color: Colors.amber,
+            child: Image(
+              //fit: BoxFit.contain,
+              // fit: BoxFit.fill,
+              fit: BoxFit.cover,
+              image: AssetImage("images/macbook.jpg"), //source asset
+              // image: NetworkImage("https://media.istockphoto.com/id/1432800146/photo/people-putting-the-jigsaws-team-together-charity-volunteer-unity-team-business-concept-of.jpg?s=2048x2048&w=is&k=20&c=y0JUKDpTNXKT3xYq5FWMH-8SBEDcLkg698lL7ovQJa8="), //source: network
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+//cara 2
+
+
+
+
+////////////////////////////////////////////////////////////////
+8.
 
 
 
