@@ -1122,17 +1122,231 @@ class _MyAppState extends State<MyApp> {
 
 10. Mapping List
 
+import 'package:flutter/material.dart';
 
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  final List<Map<String, dynamic>> myList = [
+    {
+      "Name": "FaisNAsir",
+      "Age": 23,
+      "FavColor": ["black", "green", "Yellow", "white", "pink", "blue"],
+    },
+    {
+      "Name": "FaisNAsir",
+      "Age": 23,
+      "FavColor": ["black", "green", "Yellow", "white", "pink", "blue"],
+    },
+    {
+      "Name": "FaisNAsir",
+      "Age": 23,
+      "FavColor": ["black", "green", "Yellow", "white", "pink", "blue"],
+    },
+    {
+      "Name": "FaisNAsir",
+      "Age": 23,
+      "FavColor": ["black", "green", "Yellow", "white", "pink", "blue"],
+    },
+    {
+      "Name": "FaisNAsir",
+      "Age": 23,
+      "FavColor": ["black", "green", "Yellow", "white", "pink", "blue"],
+    },
+    {
+      "Name": "FaisNAsir",
+      "Age": 23,
+      "FavColor": ["black", "green", "Yellow", "white", "pink", "blue"],
+    },
+    {
+      "Name": "FaisNAsir",
+      "Age": 23,
+      "FavColor": ["black", "green", "Yellow", "white", "pink", "blue"],
+    },
+    {
+      "Name": "Shariffuddin",
+      "Age": 13,
+      "FavColor": ["white", "pink", "blue"],
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("ID Apps"),
+        ),
+      body: ListView(
+        children: myList.map((data) {
+          List myFavColor = data["FavColor"];
+          return Card(
+            margin: EdgeInsets.all(20),
+            color: Colors.deepOrange.withOpacity(0.2),
+            child: Container(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                //row
+                  Row(
+                    children: [
+                    CircleAvatar(),
+                    SizedBox(
+                        width: 20,
+                      ),
+                    Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Name: ${data['Name']}"),
+                      Text("Age ${data["Age"]}"),
+                    ],
+                  ),
+                  ],
+                  ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: myFavColor.map((color) {
+                        return Container(
+                          color: Colors.amber,
+                          margin: EdgeInsets.symmetric(
+                            vertical: 15,
+                            horizontal: 8,
+                          ),
+                          padding: EdgeInsets.all(10),
+                          child: Text(color),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ],
+                //favColor
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+      ),
+    );
+  }
+}
 
 
 /////////////////////////////////////////////////////////////
 
-11. 
+11. Date Format
+
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Date Format"),
+        ),
+        body: Center(
+          child: Text(
+            // DateTime(2021, 9, 7, 12).toString(),
+            // DateTime.now().toString(),
+            // DateFormat.d().format(DateTime.now()),
+            // DateFormat.EEEE().format(DateTime.now()),
+            // DateFormat.yMd().add_jm().format(DateTime.now()),
+            DateFormat('yMd').format(DateTime.now()),
+            style: TextStyle(
+              fontSize: 20,
+            ),
+          ),
+        ),
+        ),
+    );
+  }
+}
 
 /////////////////////////////////////////////////////////////
 
-12. 
+12. AppBar Widget
 
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          // leading: Text("MY LEADING"), //text akan terpotong
+          leading: Container(
+            color: Colors.green,
+            // width: 100,
+            // height: 100, //height dan width tidak akan terpengaruh
+          ),
+          leadingWidth: 100, //jadi perlu guna leadingWidth, dan leadingheight x wujud
+          title: Container(
+            color: Colors.red,
+            //disini untuk title boleh gunakan height dan width
+            height: 100,
+            width: 200,
+            child: Center(
+              child: Text("Title Text"),
+            ),
+          ),
+          titleSpacing: 0, //hilangkan space antara leading dan titile
+          centerTitle: true,
+          actions: [
+            Container(
+              //disini untuk action boleh gunakan height dan width
+              color: Colors.black,
+            // height: 100, //heigth tidak boleh diatur untuk action
+            width: 100,
+            ),
+          ],
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(150),
+            child: Container(  //untuk buat prefirrend size kena refaktor this Container
+                color: Colors.black,
+                 width: 100,
+                 height: 90,
+              ),
+          ),
+          // flexibleSpace: Container(
+          //     color: Colors.white,
+          //     // width: 100, //width tidak mempegaruhi
+          //     height: 100,
+          //   ),
+          // flexibleSpace: Center(child: Text("FLEXIBLE")),
+        ),
+      )
+    );
+  }
+}
+
+/////////////////////////////////////////////////////////////
+
+13. 
+
+/////////////////////////////////////////////////////////////
+
+14. 
 
 
 
