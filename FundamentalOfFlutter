@@ -795,11 +795,343 @@ class MyApp extends StatelessWidget {
 
 
 ////////////////////////////////////////////////////////////////
-8.
+
+8.Extract Widget
+
+//cara 1
+
+import 'package:flutter/material.dart';
+import 'package:faker/faker.dart';
+
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  var faker = new Faker();
+
+  @override
+  Widget build(BuildContext context) {
+
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('WhatsApp Cloone'),
+        ),
+        body: ListView(
+          children: [
+            ChatItem("https://picsum.photos/id/1/100/100", faker.person.name(), faker.lorem.sentence()),
+            ChatItem("https://picsum.photos/id/2/100/100", faker.person.name(), faker.lorem.sentence()),
+            ChatItem("https://picsum.photos/id/3/100/100", faker.person.name(), faker.lorem.sentence()),
+            ChatItem("https://picsum.photos/id/4/100/100", faker.person.name(), faker.lorem.sentence()),
+            ChatItem("https://picsum.photos/id/5/100/100", faker.person.name(), faker.lorem.sentence()),
+            ChatItem("https://picsum.photos/id/6/100/100", faker.person.name(), faker.lorem.sentence()),
+          ],
+        ),
+      ),
+    );
+
+  }
+}
+
+class ChatItem extends StatelessWidget {
+
+  final String imageUrl;
+  final String title;
+  final String subtitle;
+
+  ChatItem(this.imageUrl, this.title, this.subtitle);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: CircleAvatar(
+        backgroundImage: NetworkImage(imageUrl),
+      ),
+      title: Text(title),
+      subtitle: Text(subtitle),
+      trailing: Text("10:00"),
+    );
+  }
+}
+
+//cara 2
+
+import 'package:flutter/material.dart';
+import 'package:faker/faker.dart';
+
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  var faker = new Faker();
+
+  @override
+  Widget build(BuildContext context) {
+
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('WhatsApp Cloone'),
+        ),
+        body: ListView(
+          children: [
+            ChatItem(
+              imageUrl: "https://picsum.photos/id/1/100/100", 
+              title: faker.person.name(), 
+              subtitle: faker.lorem.sentence()
+              ),
+            ChatItem(
+              imageUrl: "https://picsum.photos/id/2/100/100", 
+              title: faker.person.name(), 
+              subtitle: faker.lorem.sentence()
+              ),
+            ChatItem(
+              imageUrl: "https://picsum.photos/id/3/100/100", 
+              title: faker.person.name(), 
+              subtitle: faker.lorem.sentence()
+              ),
+            ChatItem(
+              imageUrl: "https://picsum.photos/id/4/100/100", 
+              title: faker.person.name(), 
+              subtitle: faker.lorem.sentence()
+              ),
+            ChatItem(
+              imageUrl: "https://picsum.photos/id/5/100/100", 
+              title: faker.person.name(), 
+              subtitle: faker.lorem.sentence()
+              ),
+          ],
+        ),
+      ),
+    );
+
+  }
+}
+
+class ChatItem extends StatelessWidget {
+
+  final String imageUrl;
+  final String title;
+  final String subtitle;
+
+  ChatItem({required this.imageUrl, required this.title, required this.subtitle});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: CircleAvatar(
+        backgroundImage: NetworkImage(imageUrl),
+      ),
+      title: Text(title),
+      subtitle: Text(subtitle),
+      trailing: Text("10:00"),
+    );
+  }
+}
+
+//cara 3
+
+import 'package:flutter/material.dart';
+import 'package:faker/faker.dart';
+
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  var faker = new Faker();
+
+  @override
+  Widget build(BuildContext context) {
+
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('WhatsApp ClOone'),
+        ),
+        body: ListView.builder(
+          itemCount: 100,
+          itemBuilder: (context, index) {
+            return ChatItem(
+              imageUrl: "https://picsum.photos/id/$index/100/100", 
+              title: faker.person.name(), 
+              subtitle: faker.lorem.sentence()
+              );
+          },
+        ),
+      ),
+    );
+
+  }
+}
+
+class ChatItem extends StatelessWidget {
+
+  final String imageUrl;
+  final String title;
+  final String subtitle;
+
+  ChatItem({required this.imageUrl, required this.title, required this.subtitle});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: CircleAvatar(
+        backgroundImage: NetworkImage(imageUrl),
+      ),
+      title: Text(title),
+      subtitle: Text(subtitle),
+      trailing: Text("10:00"),
+    );
+  }
+}
+
+////////////////////////////////////////////////////////////////
+
+9. Pengunaan Stateful
+
+//cara 1: guna stateless
+//counter bertambah di debug console tapi pada app tidak berubah
+
+import 'package:flutter/material.dart';
+
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  int counter = 1;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Dynamic App"),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              counter.toString(),
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    counter--;
+                    print(counter);
+                  },
+                  child: Icon(Icons.remove),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    counter++;
+                    print(counter);
+                  },
+                  child: Icon(Icons.add),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+//cara 2: guna sateful
+
+import 'package:flutter/material.dart';
+
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  int counter = 1;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Dynamic App"),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              counter.toString(),
+              style: TextStyle(
+                fontSize: 0 + double.parse(counter.toString()),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    if(counter != 1) {
+                      setState(() {
+                        counter--;
+                      });
+                    }
+                    print(counter);
+                  },
+                  child: Icon(Icons.remove),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                  setState(() {
+                    counter++;
+                  });
+                  print(counter);
+                  },
+                  child: Icon(Icons.add),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/////////////////////////////////////////////////////////////
+
+10. Mapping List
 
 
 
 
+/////////////////////////////////////////////////////////////
+
+11. 
+
+/////////////////////////////////////////////////////////////
+
+12. 
 
 
 
