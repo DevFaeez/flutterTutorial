@@ -1342,8 +1342,370 @@ class MyApp extends StatelessWidget {
 
 /////////////////////////////////////////////////////////////
 
-13. 
+13. TabBar Widget
 
+//cara 1
+
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("My App Slide"),
+          centerTitle: true,
+          // bottom: PreferredSize(preferredSize: Size.fromHeight(100),
+          // child: Text("Bottom"),
+          // ), //cara 1
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(50),
+            child: DefaultTabController(
+              length: 3,
+              child: TabBar(tabs: [
+                Tab(
+                  text: "IPHONE",
+                ),
+                Tab(
+                  text: "MACBOOK",
+                ),
+                Tab(
+                  text: "NEW PRODUCT",
+                ),
+              ]),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+//cara 2
+
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  DefaultTabController myController = DefaultTabController(length: 4, child: Container());
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: DefaultTabController(
+        length: 4,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text("My App Slide"),
+            centerTitle: true,
+            bottom: TabBar(tabs: [
+                  Tab( //dalam tab mesti ada benda, kalau kosong akan error
+                    text: "IPHONE",
+                    icon: Icon(Icons.add_a_photo),
+                  ),
+                  Tab(
+                    icon: Icon(Icons.ac_unit_outlined),
+                  ),
+                  Tab(
+                    text: "NEW PRODUCT",
+                  ),
+                  Tab(
+                    child: Container(child: Image.asset("images/macbook.jpg")),
+                  ),
+                ]),
+              ),
+            ),
+      ),
+        );
+  }
+}
+
+// cara 3
+
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  List<Tab> myTab = [
+Tab( //dalam tab mesti ada benda, kalau kosong akan error
+                    text: "IPHONE",
+                    icon: Icon(Icons.add_a_photo),
+                  ),
+                  Tab(
+                    icon: Icon(Icons.ac_unit_outlined),
+                  ),
+                  Tab(
+                    text: "NEW PRODUCT",
+                  ),
+                  Tab(
+                    child: Container(child: Image.asset("images/macbook.jpg")),
+                  ),
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: DefaultTabController(
+        length: 4,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text("My App Slide"),
+            centerTitle: true,
+            bottom: TabBar(
+              tabs: myTab,
+              //indicatorColor: Colors.black,
+              //indicatorPadding: EdgeInsets.all(5),
+              //indicatorWeight: 5,  // cara 1
+
+              indicator: BoxDecoration(
+                color: Colors.red,
+                
+                border: Border(
+                  bottom: BorderSide(
+                  color: Colors.black,
+                  width: 5,   // cara 2, tidak boleh guna selain indicator sahaja
+                ),
+                ),
+              ),
+              ),
+              ),
+            ),
+      ),
+        );
+  }
+}
+
+//cara 4
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  List<Tab> myTab = [
+Tab( //dalam tab mesti ada benda, kalau kosong akan error
+                    text: "IPHONE",
+                    icon: Icon(Icons.add_a_photo),
+                  ),
+                  Tab(
+                    icon: Icon(Icons.ac_unit_outlined),
+                  ),
+                  Tab(
+                    text: "NEW PRODUCT",
+                  ),
+                  
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: DefaultTabController(
+        length: 3,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text("My App Slide"),
+            centerTitle: true,
+            bottom: TabBar(
+              labelColor: Colors.black, //semua berubah color
+              unselectedLabelColor: Colors.white,  //tidak select akan jadi warna nihhs
+              labelStyle: TextStyle(fontWeight: FontWeight.bold),
+              unselectedLabelStyle: TextStyle(
+                fontWeight: null,
+              ),
+              tabs: myTab,
+              // indicatorColor: Colors.black,
+              // indicatorPadding: EdgeInsets.all(5),
+              // indicatorWeight: 5,
+              indicator: BoxDecoration(
+                color: Colors.white,
+                
+                border: Border(
+                  bottom: BorderSide(
+                  color: Colors.black,
+                  width: 5,
+                ),
+                ),
+              ),
+              ),
+              ),
+            ),
+      ),
+        );
+  }
+}
+
+//cara 5
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  List<Tab> myTab = [
+Tab( //dalam tab mesti ada benda, kalau kosong akan error
+                    text: "IPHONE",
+                    icon: Icon(Icons.add_a_photo),
+                  ),
+                  Tab(
+                    icon: Icon(Icons.ac_unit_outlined),
+                  ),
+                  Tab(
+                    text: "NEW PRODUCT",
+                  ),
+                  
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: DefaultTabController(
+initialIndex: 2,
+        length: 3,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text("My App Slide"),
+            centerTitle: true,
+            bottom: TabBar(
+              labelColor: Colors.black, //semua berubah color
+              unselectedLabelColor: Colors.white,  //tidak select akan jadi warna nihhs
+              labelStyle: TextStyle(fontWeight: FontWeight.bold),
+              unselectedLabelStyle: TextStyle(
+                fontWeight: null,
+              ),
+              tabs: myTab,
+              // indicatorColor: Colors.black,
+              // indicatorPadding: EdgeInsets.all(5),
+              // indicatorWeight: 5,
+              indicator: BoxDecoration(
+                color: Colors.white,
+                
+                border: Border(
+                  bottom: BorderSide(
+                  color: Colors.black,
+                  width: 5,
+                ),
+                ),
+              ),
+              ),
+              ),
+              body: TabBarView(
+                children: [
+                  Center(
+                    child: Text(
+                    "IPHONE",
+                    style: TextStyle(
+                      fontSize: 28,
+                    ),),
+                  ),
+                  Center(
+                    child: Text(
+                    "MACBOOK",
+                    style: TextStyle(
+                      fontSize: 28,
+                    ),),
+                  ),
+                  Center(
+                    child: Text(
+                    "NEW PRODUCT",
+                    style: TextStyle(
+                      fontSize: 28,
+                    ),),
+                  ),
+                  Center(
+                    child: Text(
+                    "NEW PRODUCT",
+                    style: TextStyle(
+                      fontSize: 28,
+                    ),),
+                  ),
+              ]),
+            ),
+      ),
+        );
+  }
+}
+
+
+/////////////////////////////////////////////////////////////
+
+14. Fitur Text Field
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Fuction Text Field"),
+        ),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Column(
+              children: [
+                TextField(
+                  autocorrect: true,  //untuk corect text
+                  autofocus: true, //jika ada banyak field, maka autofocus digunakan beri keutamaan pada field auto focus
+                  enableSuggestions: true,
+                  enableInteractiveSelection: false,  //true untuk boleh paste
+                  enabled: true, //false untuk disbale text field nihh
+                  obscureText: true, //buat jadi ... seperti pass
+                  obscuringCharacter: "*", //tukar ... pada obsucure Text kepada benda lain
+                ),
+                TextField(
+                  autocorrect: true,  //untuk corect text
+                  keyboardType: TextInputType.number, //buat jenis keyboard
+                  readOnly: true, //untuk baca sahaja
+                ),
+                TextField(
+                  autocorrect: true,  //untuk corect text
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+    }
+}
+
+/////////////////////////////////////////////////////////////
+
+15. 
+
+/////////////////////////////////////////////////////////////
+
+16.
+
+/////////////////////////////////////////////////////////////
+
+14. 
+/////////////////////////////////////////////////////////////
+
+14. 
 /////////////////////////////////////////////////////////////
 
 14. 
