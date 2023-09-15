@@ -1991,9 +1991,169 @@ class _MyAppState extends State<MyApp> {
 
 17. Grid View 
 
+//cara 1
+
+import 'dart:math';
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+List<Widget> myList = List.generate(
+  90,
+  (index) {
+    return Container(
+      width: 150,
+      height: 50,
+      color: Color.fromRGBO(Random().nextInt(256), Random().nextInt(256), Random().nextInt(256), 1),
+    );
+  },
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Grid View"),
+        ),
+        body: GridView(
+          padding: EdgeInsets.all(20),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 5,
+            mainAxisSpacing: 20,
+            crossAxisSpacing: 10,
+            childAspectRatio: 4/3, //4 = witdh dan 3 = height
+            ),
+          children: myList,
+        ),
+      ),
+    );
+  }
+}
+
+// cara 2
+
+import 'dart:math';
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+List<Widget> myList = List.generate(
+  90,
+  (index) {
+    return Container(
+      width: 150,
+      height: 50,
+      color: Color.fromRGBO(Random().nextInt(256), Random().nextInt(256), Random().nextInt(256), 1),
+    );
+  },
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Grid View"),
+        ),
+        body: GridView.count(
+          crossAxisCount: 4,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
+          childAspectRatio: 4/3,
+          children: myList,
+          ),
+      ),
+    );
+  }
+}
+
 /////////////////////////////////////////////////////////////
 
-18. 
+18. Dialog
+
+import 'package:flutter/material.dart';
+
+class MyHomePage extends StatefulWidget {
+
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  String result = "Don't Have Input";
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Dialog"),
+      ),
+      body: Center(
+        child: Text(
+          result,
+          style: TextStyle(fontSize: 25),
+          ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print("Telah diklik");
+          showDialog(
+            context: context, 
+            builder: (context) {
+              return AlertDialog(
+                actionsAlignment: MainAxisAlignment.center, //buat action center
+                title: Text("CONFIRM"),
+                content: Text("Are you sure want delete this item"),
+                actions: [
+                  ElevatedButton(
+                    onPressed: () {
+                      print("User click No");
+                      setState(() {
+                        result = "YOU CHOOSE NO";
+                      });
+                      Navigator.of(context).pop(false);  //untuk hilangakn dialog ini selepas kilik
+                    },
+                    child: Text("No"),
+                    ),
+                  ElevatedButton(
+                    onPressed: () {
+                      print("User click Yes");
+                      setState(() {
+                        result = "YOU CHOOSE YES";
+                      });
+                      Navigator.of(context).pop(true);
+                    },                    
+                    
+                    child: Text("Yes"),
+                    ),
+                ],
+              );
+            }).then((value) {
+              return print(value);
+              });
+        },
+        child: Icon(Icons.delete, size: 30,),
+        
+        ),
+        // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat, //set button tengah
+        // floatingActionButtonLocation: FloatingActionButtonLocation.centerTop, //set atas tenga
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterFloat,
+    );
+  }
+}
+
+
 /////////////////////////////////////////////////////////////
 
 19. 
