@@ -1694,21 +1694,309 @@ class MyApp extends StatelessWidget {
 
 /////////////////////////////////////////////////////////////
 
-15. 
+15. Dekorasi Text Field
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Decoration of Text Field"),
+        ),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(40.0),
+            child: TextField(
+              // showCursor: true, //tunjukkan consol pada text field
+              // cursorColor: Colors.brown,
+              // cursorHeight: 25,
+              // cursorWidth: 5,
+              // cursorRadius: Radius.circular(15),
+              obscureText: true,
+              
+
+              textAlign: TextAlign.center, //set position start maybe center start or end
+              textAlignVertical: TextAlignVertical.center,//set text position(sedikit sahaa perubahan)
+              textCapitalization: TextCapitalization.words, //setaip perkataan baru diawal li dengna capital latter
+              // textCapitalization: TextCapitalization.characters,  //setiap char akan capital latter(boleh juka none, sentences dan sebagainya)
+
+              style: TextStyle(  //untuk text dalam text filed
+                color: Colors.blue,
+                fontSize: 22,
+              ),
+
+
+              decoration: InputDecoration(
+                fillColor: Colors.red,
+                filled: true, //untuk guna color, field must set as true
+                icon: Icon(
+                  Icons.person_2,
+                  size: 35,
+                  ),
+
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  borderSide: BorderSide(color: Colors.black),
+                ),
+
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.pink),
+                ),
+
+                // prefixIcon: Icon(  //untuk masukkan dalam boder, guna prefix
+                //   Icons.person_add,
+                //   size: 35,
+                // ),
+
+                // suffixIcon: Icon(  //untuk masukkan dalam boder, guna sermix tapi dibelakang
+                //   Icons.person_add,
+                //   size: 35,
+                // ),
+                
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.hide_image),
+                  onPressed: () {
+                    //  obscureText: false, //kena ubah statefull dulu
+
+                  },
+                ),
+
+                // prefixText: "Name: ",
+
+                // prefixIconColor: Colors.amber,
+
+                // prefixStyle: TextStyle(
+                //   fontSize: 12,
+                // ),
+
+                // prefix: Icon( 
+                //   Icons.person_add,
+                //   size: 35,
+                // ),
+
+                
+
+                hintText: "username", 
+                hintStyle: TextStyle(
+                  color: Colors.red,
+                ),
+                // hintTextDirection: TextDirection.ltr, //maybe can rtl
+                // alignLabelWithHint: ,
+
+                labelText: "Full Name", //berada atas dalam border
+                labelStyle: TextStyle(
+                  color: Colors.amber,
+                ),
+
+                // alignLabelWithHint: false,
+
+
+
+
+
+
+                ),
+
+              
+
+              // decoration: InputDecoration(
+              // labelText: 'Outline Border',
+              //   border: OutlineInputBorder(),
+              //     ),
+
+
+              // decoration: InputDecoration(
+              //   border: UnderlineInputBorder(),
+              //   labelText: "underlineInputBorder"
+              // ),
+
+   // decoration: InputDecoration(
+  //   labelText: 'Rounded Border',
+  //   border: OutlineInputBorder(
+  //     borderRadius: BorderRadius.circular(10.0),
+  //   ),
+  // ),
+
+  // decoration: InputDecoration(
+  //   labelText: 'No Border (Flat)',
+  //   border: InputBorder.none,
+  // ),
+
+  // decoration: InputDecoration(
+  //   labelText: 'Custom Border',
+  //   border: OutlineInputBorder(
+  //     borderSide: BorderSide(
+  //       color: Colors.blue,
+  //       width: 32.0,
+  //     ),
+  //   ),
+  // ),
+
+  //   decoration: InputDecoration(
+  //   labelText: 'Custom Focused Border',
+  //   focusedBorder: OutlineInputBorder(
+  //     borderSide: BorderSide(
+  //       color: Colors.green,
+  //       width: 2.0,
+  //     ),
+  //   ),
+  // ),
+
+  //   decoration: InputDecoration(
+  //   labelText: 'Error Border',
+  //   errorBorder: UnderlineInputBorder(
+  //     borderSide: BorderSide(color: Colors.red),
+  //   ),
+  // ),
+
+              ),
+            ),
+          ),
+        ),
+    );
+  }
+}
+
 
 /////////////////////////////////////////////////////////////
 
-16.
+16. Control Text Field
+
+//cara 1: using statelesswidget
+
+import 'package:flutter/material.dart';
+
+void main() {
+
+runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  String result = "INPUT RESULT";
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Container(
+            child: Text("Control Text Field",
+            style: TextStyle(
+              fontSize: 25,
+            ),
+            ),
+          ),
+        ),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(25.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextField(
+                  controller: TextEditingController(text: "+60"),
+                  onChanged: (value) {
+                    print("ONCHANGE");
+                    result = value;
+                  },
+                  onSubmitted: (value) => print(value),
+                  onEditingComplete: () => print("COMPLETE EDITING"),
+                  // onTap: (value) => print(value),
+                ),
+
+                Text(result),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+//cara 2: using statefulllwidget
+
+import 'package:flutter/material.dart';
+
+void main() {
+
+runApp(MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  String result = "INPUT RESULT";
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Container(
+            child: Text("Control Text Field",
+            style: TextStyle(
+              fontSize: 25,
+            ),
+            ),
+          ),
+        ),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(25.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextField(
+                  // controller: TextEditingController(text: "+60"),
+                  onChanged: (value) {
+                    print("ONCHANGE");
+                    setState(() {
+                      result = value;
+                    });
+                    },
+                  onSubmitted: (value) {
+                    setState(() {
+                      result = "FINAL: $value";
+                      
+                    });
+                  },
+                  onEditingComplete: () => print("COMPLETE EDITING"),
+                  // onTap: (value) => print(value),
+                ),
+
+                Text(result),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 /////////////////////////////////////////////////////////////
 
-14. 
+17. Grid View 
+
 /////////////////////////////////////////////////////////////
 
-14. 
+18. 
 /////////////////////////////////////////////////////////////
 
-14. 
+19. 
 
 
 
