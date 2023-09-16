@@ -1,0 +1,974 @@
+21. Dismissible
+
+import 'package:faker/faker.dart';
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  final Faker faker = Faker();
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Dismissible"),
+        ),
+        body: ListView.builder(
+          padding: EdgeInsets.all(10),
+          itemCount: 100,
+          itemBuilder:(context, index) {
+            return Dismissible(
+              key: Key(index.toString()),
+              // direction: DismissDirection.startToEnd,
+              onDismissed: (direction) {
+                print("DISMISS  $index");
+                // print(direction);
+                if(direction == DismissDirection.endToStart) {
+                  print("DISMISS FROM END TO START"); 
+                } else {
+                  print("DISMISS START TO END");
+                }
+              }, //give info when complate dissmied
+              background: Container(
+                child: Icon(Icons.delete_forever, size: 34,),
+                alignment: Alignment.centerLeft, //set position of icon, because default is center
+                padding: EdgeInsets.only(left: 20), //padding for icon
+                color: Colors.red,),
+              child: ListTile(
+                  leading: CircleAvatar(
+                    child: Center(
+                      child: Text("${index + 1}"),
+                    ),
+                  ),
+                  title: Text(faker.person.name()),
+                  subtitle: Text(faker.lorem.sentence(), maxLines: 2, overflow: TextOverflow.ellipsis,),
+              ),
+            );
+          },
+          ),
+      ),
+    );
+  }
+}
+
+//cara 2
+
+import 'package:faker/faker.dart';
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  final Faker faker = Faker();
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Dismissible"),
+        ),
+        body: ListView.builder(
+          padding: EdgeInsets.all(10),
+          itemCount: 100,
+          itemBuilder:(context, index) {
+            return Dismissible(
+              key: Key(index.toString()),
+              // direction: DismissDirection.startToEnd,
+              onDismissed: (direction) {  //confirm Dismiss akan dilaksanakan dulu, sebelum on Dismmiseed(perlu diingit bahawa value true saja akan run onDismissed
+                print("DISMISS  $index");
+                // print(direction);
+                if(direction == DismissDirection.endToStart) {
+                  print("DISMISS FROM END TO START"); 
+                } else {
+                  print("DISMISS START TO END");
+                }
+              }, //give info when complate dissmied
+              confirmDismiss: (direction) {
+                return showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      actionsAlignment: MainAxisAlignment.center,
+                      title: Text("Confirm Dismiss"),
+                      content: Text("Are you sure to dismmis this"),
+                      actions: [
+                        ElevatedButton(
+                          onPressed: () {
+                            print("USER CLICK YES");
+                            Navigator.of(context).pop(true);
+                          }, 
+                          child: Text("YES"),
+                          ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(false);  //value false akan dihantar kepada onDismissed
+                            print("USER CLICK NO");
+                          }, 
+                          child: Text("NO"),
+                          ),
+                      ],
+                    );
+                  }
+                  );
+              },
+              background: Container(
+                child: Icon(Icons.delete_forever, size: 34,),
+                alignment: Alignment.centerLeft, //set position of icon, because default is center
+                padding: EdgeInsets.only(left: 20), //padding for icon
+                color: Colors.red,),
+              child: ListTile(
+                  leading: CircleAvatar(
+                    child: Center(
+                      child: Text("${index + 1}"),
+                    ),
+                  ),
+                  title: Text(faker.person.name()),
+                  subtitle: Text(faker.lorem.sentence(), maxLines: 2, overflow: TextOverflow.ellipsis,),
+              ),
+            );
+          },
+          ),
+      ),
+    );
+  }
+}
+
+
+//////////////////////////////////////////////////////
+
+22. Navigation
+
+* perpindahan page1 ke page2
+* Guna konsep stack
+* tidak perlu stateful sebab navigation
+
+//cara 1: guna push sahaja, tapi meyebabkan bayak layer(makan banyak memori)
+
+//main.dart
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/page_satu.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: PageSatu(),
+    );
+  }
+}
+
+//page_satu.dart
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/page_dua.dart';
+
+class PageSatu extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("PAGE SATU"),
+      ),
+      body: Center(
+        child: Text(
+          "INI PAGE SATU",
+          style: TextStyle(fontSize: 36),
+          ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) {
+                return PageDua();
+            },
+            ),
+            );
+        },
+        child: Icon(Icons.keyboard_arrow_right, size: 35,),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+}
+
+//page_dua.dart
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/page_satu.dart';
+
+class PageDua extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("PAGE DUA"),
+      ),
+      body: Center(
+        child: Text(
+          "INI PAGE DUA",
+          style: TextStyle(fontSize: 36),
+          ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) {
+                return PageSatu();
+            },
+            ),
+            );
+        },
+        child: Icon(Icons.keyboard_arrow_left, size: 35,),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+}
+
+//cara 2: guna push and pop, so hanya banyak terlibat sahaja digunakan berualng kali
+
+
+//main.dart
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/page_satu.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: PageSatu(),
+    );
+  }
+}
+
+//page_satu.dart
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/page_dua.dart';
+
+class PageSatu extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("PAGE SATU"),
+      ),
+      body: Center(
+        child: Text(
+          "INI PAGE SATU",
+          style: TextStyle(fontSize: 36),
+          ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) {
+                return PageDua();
+            },
+            ),
+            );
+        },
+        child: Icon(Icons.keyboard_arrow_right, size: 35,),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+}
+
+//page_dua.dart
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/page_satu.dart';
+
+class PageDua extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("PAGE DUA"),
+      ),
+      body: Center(
+        child: Text(
+          "INI PAGE DUA",
+          style: TextStyle(fontSize: 36),
+          ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        child: Icon(Icons.keyboard_arrow_left, size: 35,),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+}
+
+//cara 3: guna pushReplacement, maksudnya akan ada 1 layer pada satu masa
+
+* yang yang di push tidak boleh gunakan pop, kerana tiada layer dalam stack
+
+//main.dart
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/page_satu.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: PageSatu(),
+    );
+  }
+}
+
+//page_satu.dart
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/page_dua.dart';
+
+class PageSatu extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("PAGE SATU"),
+      ),
+      body: Center(
+        child: Text(
+          "INI PAGE SATU",
+          style: TextStyle(fontSize: 36),
+          ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) {
+                return PageDua();
+            },
+            ),
+            );
+        },
+        child: Icon(Icons.keyboard_arrow_right, size: 35,),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+}
+
+//page_dua.dart
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/page_satu.dart';
+
+class PageDua extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("PAGE DUA"),
+      ),
+      body: Center(
+        child: Text(
+          "INI PAGE DUA",
+          style: TextStyle(fontSize: 36),
+          ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Navigator.of(context).pop();
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) {
+                return PageSatu();
+            },
+            ),
+            );
+        },
+        child: Icon(Icons.keyboard_arrow_left, size: 35,),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+}
+
+
+///////////////////////////////////////////////////////////////////////
+
+23. Routes
+
+//cara 1: tanpa routes
+
+//main.dart
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/HomePage.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomePage(),
+    );
+  }
+}
+
+//HomePage.dart
+
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/GalleryPage.dart';
+
+class HomePage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("HOME PAGE"),
+      ),
+      body: Center(
+        child: Text(
+          "HOME PAGE", 
+          style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.skip_next_sharp, size: 37,),
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) {
+              return GalleryPage();
+            })
+          );
+        }),
+    );
+  }
+}
+
+//GalleryPage.dart
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/PhotoPage.dart';
+
+class GalleryPage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("GALERY SATU"),
+        // leading: Container(), //untuk hilangkan default return
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "PHOTO PAGE", 
+              style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  }, 
+                  child: Text("<< BACK", style: TextStyle(fontSize: 18),)
+                  ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return PhotoPage();
+                        },
+                        ),
+                    );
+                  }, 
+                  child: Text("NEXT >>", style: TextStyle(fontSize: 18),)
+                  ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+//PhotpPage.dart
+
+import 'package:flutter/material.dart';
+
+class PhotoPage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("PHOTO SATU"),
+        // leading: Container(), //untuk hilangkan default return
+      ),
+      body: Center(
+        child: Text(
+          "PHOTO PAGE", 
+          style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+}
+
+//cara 2: guna routes
+
+* perlu gunakan pushNamed
+
+//main.dart
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/GalleryPage.dart';
+import 'package:flutter_application_1/HomePage.dart';
+import 'package:flutter_application_1/PhotoPage.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomePage(),
+      initialRoute: '/homepage', //set page awal
+      routes: {
+        "/homepage": (context) => HomePage(),  //  /homepage /gallery /photo: untuk declare routes atau navigator page yang ada 
+        "/gallery": (context) => GalleryPage(),
+        "/photo": (context) => PhotoPage(), //cara 1
+        // "/photo": (context) { //cara 2
+        //   MaterialPageRoute(builder: (context) {
+        //     return PhotoPage();
+        //   }),
+        // },
+      },
+    );
+  }
+}
+
+//HomePage.dart
+
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/GalleryPage.dart';
+
+class HomePage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("HOME PAGE"),
+      ),
+      body: Center(
+        child: Text(
+          "HOME PAGE", 
+          style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.skip_next_sharp, size: 37,),
+        onPressed: () {
+          Navigator.of(context).pushNamed('/gallery');
+        }),
+    );
+  }
+}
+
+//GalleryPAge.dart
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/PhotoPage.dart';
+
+class GalleryPage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("GALERY SATU"),
+        // leading: Container(), //untuk hilangkan default return
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "PHOTO PAGE", 
+              style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  }, 
+                  child: Text("<< BACK", style: TextStyle(fontSize: 18),)
+                  ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/photo');
+                  }, 
+                  child: Text("NEXT >>", style: TextStyle(fontSize: 18),)
+                  ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+//PhotoPgae.dart
+
+import 'package:flutter/material.dart';
+
+class PhotoPage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("PHOTO SATU"),
+        // leading: Container(), //untuk hilangkan default return
+      ),
+      body: Center(
+        child: Text(
+          "PHOTO PAGE", 
+          style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+}
+
+//cara 3:  jika terlalu banyak page, make boleh gunaa cara ini
+
+//main.dart
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/GalleryPage.dart';
+import 'package:flutter_application_1/HomePage.dart';
+import 'package:flutter_application_1/PhotoPage.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomePage(),
+      initialRoute: '/homepage', //set page awal
+      routes: {
+        HomePage.nameRoutes: (context) => HomePage(),  //  /homepage /gallery /photo: untuk declare routes atau navigator page yang ada 
+        GalleryPage.namesRoutes: (context) => GalleryPage(),
+        PhotoPage.namesRoutes: (context) => PhotoPage(), //cara 1
+      },
+    );
+  }
+}
+
+//HomePage.dart
+
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/GalleryPage.dart';
+
+class HomePage extends StatelessWidget {
+  static const nameRoutes = "/homepage";
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("HOME PAGE"),
+      ),
+      body: Center(
+        child: Text(
+          "HOME PAGE", 
+          style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.skip_next_sharp, size: 37,),
+        onPressed: () {
+          Navigator.of(context).pushNamed(GalleryPage.namesRoutes);
+        }),
+    );
+  }
+}
+
+//Gallery.dart
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/PhotoPage.dart';
+
+class GalleryPage extends StatelessWidget {
+  static const namesRoutes = "/gallery";
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("GALERY SATU"),
+        // leading: Container(), //untuk hilangkan default return
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "PHOTO PAGE", 
+              style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  }, 
+                  child: Text("<< BACK", style: TextStyle(fontSize: 18),)
+                  ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(PhotoPage.namesRoutes);
+                  }, 
+                  child: Text("NEXT >>", style: TextStyle(fontSize: 18),)
+                  ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+//PhotoPage.dart
+
+import 'package:flutter/material.dart';
+
+class PhotoPage extends StatelessWidget {
+  static const namesRoutes = '/photo';
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("PHOTO SATU"),
+        // leading: Container(), //untuk hilangkan default return
+      ),
+      body: Center(
+        child: Text(
+          "PHOTO PAGE", 
+          style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+}
+
+////////////////////////////////////////////////////////////////
+
+24. Drawer
+
+//main.dart
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/PageDebug.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Drawer"),
+        centerTitle: true,
+        // leading: ,  //untuk buat drawer, maka tidak perlukan leading
+      ),
+      drawer: Drawer( //untuk guna, boleh klik atau slide kiri ke kanan
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(20),
+              alignment: Alignment.bottomCenter,
+              width: double.infinity, //max width can fill
+              color: Colors.red,
+              height: 150,
+              child: Text("SOMETHING HERE", style: TextStyle(color: Colors.white),),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            ListTile(
+              onTap: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) {
+                    return PageDebug();
+                  },)
+                );
+              },  //untuk boleh klik dan add function
+              // contentPadding: EdgeInsets.all(10),
+              leading: Icon(Icons.person, size: 33, color: Colors.black,),
+              title: Text("Profile", style: TextStyle(fontSize: 20, color: Colors.black)),
+            ),
+            ListTile(
+              // contentPadding: EdgeInsets.all(10),
+              leading: Icon(Icons.settings, size: 33, color: Colors.black,),
+              title: Text("Settins", style: TextStyle(fontSize: 20, color: Colors.black)),
+            ),
+          ],
+        ),
+      ),  
+      body: Center(
+        child: Text("SOMETHING HERE"),
+        ),
+    );
+  }
+}
+
+//PageDebug.dart
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/main.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomePage(),
+    );
+  }
+}
+
+class PageDebug extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("PAGE DEBUG"),
+        centerTitle: true,
+        // leading: ,  //untuk buat drawer, maka tidak perlukan leading
+      ),
+      drawer: Drawer( //untuk guna, boleh klik atau slide kiri ke kanan
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(20),
+              alignment: Alignment.bottomCenter,
+              width: double.infinity, //max width can fill
+              color: Colors.red,
+              height: 150,
+              child: Text("SOMETHING HERE", style: TextStyle(color: Colors.white),),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            ListTile(
+              onTap: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) {
+                    return HomePage();
+                  },)
+                );
+              },  //untuk boleh klik dan add function
+              // contentPadding: EdgeInsets.all(10),
+              leading: Icon(Icons.person, size: 33, color: Colors.black,),
+              title: Text("Profile", style: TextStyle(fontSize: 20, color: Colors.black)),
+            ),
+            ListTile(
+              // contentPadding: EdgeInsets.all(10),
+              leading: Icon(Icons.settings, size: 33, color: Colors.black,),
+              title: Text("Settins", style: TextStyle(fontSize: 20, color: Colors.black)),
+            ),
+          ],
+        ),
+      ),  
+      body: Center(
+        child: Text("SOMETHING HERE"),
+        ),
+    );
+  }
+}
+
+/////////////////////////////////////////////////////////////////////
+
