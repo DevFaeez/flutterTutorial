@@ -972,3 +972,310 @@ class PageDebug extends StatelessWidget {
 
 /////////////////////////////////////////////////////////////////////
 
+25. Switch
+
+* seperti suis buka tutup
+* melibatkan 2 componenet
+  track: line
+  thumb: biasanya bulan
+
+//cara 1: default size
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: MyHome(),
+    );
+  }
+}
+
+class MyHome extends StatefulWidget {
+  const MyHome({super.key});
+
+  @override
+  State<MyHome> createState() => _MyHomeState();
+}
+
+class _MyHomeState extends State<MyHome> {
+
+  bool statusSwitch = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("My Switch"),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Switch( //untuk switch wajib ada value dan onChanged
+            //switch.adaptive : untuk switch design berbeza dan hanya untuk ip
+            activeColor: Colors.yellow,  //set color ketika on, boleh guna untuk swithc edaptive
+            activeTrackColor: Colors.red,
+            inactiveThumbColor: Colors.red,
+            inactiveTrackColor: Colors.yellow,  //set color ketika OFF, tidak boleh guna untuk swicth adaptive
+
+            activeThumbImage: AssetImage("images/true.webp"), //add images for thumb, adaptive tidak boleh gunakan ini
+            inactiveThumbImage: AssetImage("images/false.webp"),
+
+            
+              value: statusSwitch,
+              onChanged: ((value) {
+                setState(() {
+                statusSwitch = !statusSwitch;
+                });
+                print(statusSwitch);
+              }),
+            ),
+              // if(statusSwitch == true) 
+              //     Text("switch off", 
+              //     style: TextStyle(
+              //       fontSize: 22,
+              //     ),)
+              // else 
+              //   Text("switch off", 
+              //     style: TextStyle(
+              //       fontSize: 22,
+              //     ),),         //cara 1
+              Text(
+                (statusSwitch == true) ? "Switch On" : "Switch Off",
+                style: TextStyle(
+                  fontSize: 22,
+                ),
+              ),
+          ],
+          ),
+      ),
+    );
+  }
+}
+
+//cara 2: modif size
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: MyHome(),
+    );
+  }
+}
+
+class MyHome extends StatefulWidget {
+  const MyHome({super.key});
+
+  @override
+  State<MyHome> createState() => _MyHomeState();
+}
+
+class _MyHomeState extends State<MyHome> {
+
+  bool statusSwitch = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("My Switch"),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              color: Colors.grey,
+              height: 400,
+              width: 200,
+              child: Transform.scale(
+                scale: 4,
+                child: Switch( //untuk switch wajib ada value dan onChanged
+                //switch.adaptive : untuk switch design berbeza dan hanya untuk ip
+                activeColor: Colors.yellow,  //set color ketika on, boleh guna untuk swithc edaptive
+                activeTrackColor: Colors.red,
+                inactiveThumbColor: Colors.red,
+                inactiveTrackColor: Colors.yellow,  //set color ketika OFF, tidak boleh guna untuk swicth adaptive
+                          
+                activeThumbImage: AssetImage("images/true.webp"), //add images for thumb, adaptive tidak boleh gunakan ini
+                inactiveThumbImage: AssetImage("images/false.webp"),
+                          
+                
+                  value: statusSwitch,
+                  onChanged: ((value) {
+                    setState(() {
+                    statusSwitch = !statusSwitch;
+                    });
+                    print(statusSwitch);
+                  }),
+                ),
+              ),
+            ),
+              // if(statusSwitch == true) 
+              //     Text("switch off", 
+              //     style: TextStyle(
+              //       fontSize: 22,
+              //     ),)
+              // else 
+              //   Text("switch off", 
+              //     style: TextStyle(
+              //       fontSize: 22,
+              //     ),),         //cara 1
+              Text(
+                (statusSwitch == true) ? "Switch On" : "Switch Off",
+                style: TextStyle(
+                  fontSize: 22,
+                ),
+              ),
+          ],
+          ),
+      ),
+    );
+  }
+}
+
+////////////////////////////////////////////////////////
+
+26. Model
+
+* sebuah formal/model yang menjadi asas
+
+//main.dart
+
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/HomePage.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomePage(),
+    );
+  }
+}
+
+
+
+//homepage.dart
+
+import 'dart:math';
+
+import 'package:faker/faker.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/models/product.dart';
+
+class HomePage extends StatelessWidget {
+
+  Faker faker = Faker();
+
+  @override
+  Widget build(BuildContext context) {
+    List<Product> dummyData = List.generate(100, (index) {
+      return Product(
+        faker.food.restaurant(),
+        'https://picsum.photos/id/${index + 1}/200/200/',
+        50.0 + Random().nextDouble(),
+        faker.lorem.sentence()
+      );
+    });
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Model Page"),
+      ),
+      body: GridView.builder(
+        padding: EdgeInsets.all(20),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 15,
+          crossAxisSpacing: 15
+          ),
+        itemBuilder: (context, index) {
+          return GridTile(
+            child: Image.network(dummyData[index].imagesURL),
+            footer: Container(
+              color: Colors.blue,
+              alignment: Alignment.centerRight,
+              
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    dummyData[index].productName, 
+                    maxLines: 1,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold
+                      ),
+                      ),
+                  Text("RM ${dummyData[index].productPrice}"),
+                  Text(dummyData[index].desription, maxLines: 2,),
+                ],
+              ),
+            ),
+            );
+        },
+        itemCount: dummyData.length,
+        ),
+    );
+  }
+}
+
+//models/product.dart //folder models in lib
+
+import 'package:flutter/material.dart';
+
+class Product {
+
+@required String productName;
+@required String imagesURL;
+@required double productPrice;
+@required String desription;
+
+Product(this.productName, this.imagesURL, this.productPrice, this.desription);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
