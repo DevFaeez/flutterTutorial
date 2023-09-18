@@ -1382,8 +1382,619 @@ class HomePage extends StatelessWidget {
 * Adaptive
   
 
+//////////////////////////////////////////////
+
+29. Media Query
+
+* mendapatkan size-size px device 
 
 
+// cara 1: untuk potrait sahaja 
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+void main() {
+  // //gunakan ini untuk membuat potrait sahaja
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations([
+  //   // DeviceOrientation.portraitUp,  //hanya boleh potrait up sahaja
+  //   // DeviceOrientation.portraitDown, //hanya boleh potrair down sahaja
+  //   DeviceOrientation.landscapeRight,
+  // ]);
+
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+
+    final mediaQueryHeight = MediaQuery.of(context).size.height;  //size dari paling atas dan paling bawah
+    final mediaQueryWidth = MediaQuery.of(context).size.width;
+    //perdu di assign dulu
+    // 1.0 bererti 100% termasuk appBAr, jadi total size untuk body kurang 100
+    //jadi untuk body tidak boleh gunakan 100, maksudnya untuk elekkkan kesalahan perlu tolak dahulu sheigth app bar
+
+
+    final myAppBar = AppBar(
+        title: Text("Media Query"),
+      );
+
+
+      //untuk dapatkan height body sahaja(tidak termasuk app bar dan bagian battery percentage)
+      //kena buat alhkan appBar ke bahagian atas dan untuk cari size tersbut dengan car ini
+
+      final myBodyHeight = mediaQueryHeight - myAppBar.preferredSize.height - MediaQuery.of(context).padding.top;
+      // .padding.top untuk bahagian paling atss telefon seperti jam dan batteri
+
+
+    return Scaffold(
+      appBar: myAppBar,
+      body: Center(
+        child: Column(
+          children: [
+            Container(
+              width: mediaQueryWidth,
+              height: myBodyHeight * 0.3, //30 dari size scrreen
+              color: Colors.amber,
+            ),
+            Container(
+              // height: MediaQuery.of(context).size.height, //akan terjadi overflow jika buat begini, lebih baik buat dekat atas
+              height: myBodyHeight * 0.7,   // 0.7 bermaksud 70 dari full scrren
+              color: Colors.cyan,
+              child: ListView.builder(
+                itemCount: 50,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    leading: CircleAvatar(),
+                    title: Text("FAISSS $index"),
+                  );
+                }
+                ),
+            ),
+          ],
+        ),
+      )
+    );
+  }
+}
+
+
+//cara 2: untuk landscape dan poitrai
+
+
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+void main() {
+  // //gunakan ini untuk membuat potrait sahaja
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations([
+  //   // DeviceOrientation.portraitUp,  //hanya boleh potrait up sahaja
+  //   // DeviceOrientation.portraitDown, //hanya boleh potrair down sahaja
+  //   DeviceOrientation.landscapeRight,
+  // ]);
+
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+
+    final mediaQueryHeight = MediaQuery.of(context).size.height;  //size dari paling atas dan paling bawah
+    final mediaQueryWidth = MediaQuery.of(context).size.width;
+    //perdu di assign dulu
+    // 1.0 bererti 100% termasuk appBAr, jadi total size untuk body kurang 100
+    //jadi untuk body tidak boleh gunakan 100, maksudnya untuk elekkkan kesalahan perlu tolak dahulu sheigth app bar
+
+
+    final myAppBar = AppBar(
+        title: Text("Media Query"),
+      );
+
+
+      //untuk dapatkan height body sahaja(tidak termasuk app bar dan bagian battery percentage)
+      //kena buat alhkan appBar ke bahagian atas dan untuk cari size tersbut dengan car ini
+
+      final myBodyHeight = mediaQueryHeight - myAppBar.preferredSize.height - MediaQuery.of(context).padding.top;
+      // .padding.top untuk bahagian paling atss telefon seperti jam dan batteri
+
+      //kita perlu gunakan media Query oriantation sebab ketika di rotek nanti gambr akan kekal pada size yang sesuai
+      //maksudnya size gambar atau apa apa akan berubah unutk mejadi kualiti
+
+      final bool isLandScapre = MediaQuery.of(context).orientation == Orientation.landscape;
+
+    return Scaffold(
+      appBar: myAppBar,
+      body: Center(
+        child: isLandScapre ? Column( //jika bool isLandcape true(maksudnya landsacpre), akan dispplay code dibawah
+          children: [
+            Container(
+              width: mediaQueryWidth,
+              height: myBodyHeight * 0.5, //30 dari size scrreen
+              color: Colors.amber,
+            ),
+            Container(
+              // height: MediaQuery.of(context).size.height, //akan terjadi overflow jika buat begini, lebih baik buat dekat atas
+              height: myBodyHeight * 0.5,   // 0.7 bermaksud 70 dari full scrren
+              color: Colors.cyan,
+              child: ListView.builder(
+                itemCount: 50,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    leading: CircleAvatar(),
+                    title: Text("FAISSS $index"),
+                  );
+                }
+                ),
+            ),
+          ],
+        )
+        : Column(  //jika bool isLandcape false(maksudnya potrait), akan dispplay code dibawah
+          children: [
+            Container(
+              width: mediaQueryWidth,
+              height: myBodyHeight * 0.3, //30 dari size scrreen
+              color: Colors.amber,
+            ),
+            Container(
+              // height: MediaQuery.of(context).size.height, //akan terjadi overflow jika buat begini, lebih baik buat dekat atas
+              height: myBodyHeight * 0.7,   // 0.7 bermaksud 70 dari full scrren
+              color: const Color.fromARGB(255, 255, 255, 255),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, 
+                  mainAxisSpacing: 10, 
+                  crossAxisSpacing: 10),
+                itemCount: 50,
+                itemBuilder: (context, index) {
+                  return GridTile(
+                    child: Container(
+                      color: Color.fromARGB(255, Random().nextInt(256), Random().nextInt(100), 1),
+                    ),
+                  );
+                }
+                ),
+            ),
+          ],
+        ),
+      )
+    );
+  }
+}
+
+////////////////////////////////////////////////////////////////
+
+30. flexible and Expanded
+
+CARA 1: hanya ada satu flexible
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Flexible And Expanded"),
+      ),
+      body: Row(
+        // mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            child: Text("Box 1 - sangat pajng"),
+            //width bergantung pada length text
+            color: Colors.red,
+            height: 100,
+          ),
+          Container(
+            child: Text("Box 2 - panjangg"),
+            color: Colors.blue,
+            height: 100,
+          ),
+          Flexible(
+            // fit: FlexFit.loose, //The child can be at most as large as the available space (but is allowed to be smaller)
+            fit: FlexFit.tight, //The child is forced to fill the available space.
+            child: Container(
+              child: Text("Box 3"),
+              color: Colors.amber,
+              height: 100,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+//cara 2: lebih satu flexible
+
+* flexible akan bahgia sama rata antara flexible
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Flexible And Expanded"),
+      ),
+      body: Row(
+        // mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            child: Text("Box 1 - sangat pajng"),
+            //width bergantung pada length text
+            color: Colors.red,
+            height: 100,
+          ),
+          Flexible(
+            fit: FlexFit.tight, //jika ada width dalam container, maka width tersebut tidak akan berguna
+            child: Container(
+              child: Text("Box 2 - panjangg"),
+              color: Colors.blue,
+              height: 100,
+            ),
+          ),
+          Flexible(
+            // fit: FlexFit.loose, //The child can be at most as large as the available space (but is allowed to be smaller)
+            fit: FlexFit.tight, //The child is forced to fill the available space.
+            child: Container(
+              child: Text("Box 3"),
+              color: Colors.amber,
+              height: 100,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+//CARA 3:  GUNA FLEX
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Flexible And Expanded"),
+      ),
+      body: Row(
+        // mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Flexible(
+            flex: 1,
+            child: Container(
+              child: Text("Box 1 - sangat pajng"),
+              //width bergantung pada length text
+              color: Colors.red,
+              height: 100,
+            ),
+          ),
+          Flexible(
+            flex: 1,
+            child: Container(
+              child: Text("Box 2 - panjangg"),
+              color: Colors.blue,
+              height: 100,
+            ),
+          ),
+          Flexible(
+            flex: 1,  //flex boleh gunakan degna width 
+            child: Container(
+              child: Text("Box 3"),
+              width: 100,
+              color: Colors.amber,
+              height: 100,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+//cara 4: guna Expanded iatu flexible dengan fit: Flexfit.tight
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Flexible And Expanded"),
+      ),
+      body: Row(
+        // mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Flexible(
+            fit: FlexFit.tight,
+            child: Container(
+              child: Text("Box 1 - sangat pajng"),
+              //width bergantung pada length text
+              color: Colors.red,
+              height: 100,
+            ),
+          ),
+          Flexible(
+            fit: FlexFit.tight,
+            child: Container(
+              child: Text("Box 2 - panjangg"),
+              color: Colors.blue,
+              height: 100,
+            ),
+          ),
+          Expanded(
+            child: Container(
+              child: Text("Box 3"),
+              width: 100,
+              color: Colors.amber,
+              height: 100,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+//cara 5: flex untuk row
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Flexible And Expanded"),
+      ),
+      body: Row(
+        // mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Flexible(
+            flex: 5,  //flex berguna untuk pembahaiagn   //size yang akan jadi 5/7
+            child: Container(
+              //width bergantung pada length text
+              color: Colors.red,
+              height: 100,
+            ),
+          ),
+          Flexible(
+            flex: 1, //size yg ni akan menjadi 1/7
+            child: Container(
+              color: Colors.blue,
+              height: 100,
+            ),
+          ),
+          Flexible(
+            flex: 1,
+            child: Container(
+              color: Colors.amber,
+              height: 100,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+//cara 6: flex untuk collum
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Flexible And Expanded"),
+      ),
+      body: Column(
+        // mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Flexible(
+            fit: FlexFit.tight,
+            flex: 5,  //flex berguna untuk pembahaiagn   //size yang akan jadi 5/7
+            child: Container(
+              //width bergantung pada length text
+              color: Colors.red,
+            ),
+          ),
+          Expanded(
+            flex: 1, //size yg ni akan menjadi 1/7
+            child: Container(
+              color: Colors.blue,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+///////////////////////////////////////////////
+
+31. Fitted Box
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Fitted Box"),
+        ),
+        body: Center(
+          child: Container(
+            width: 300,
+            height: 100,
+            color: Colors.blue,
+            child: FittedBox(  //boleh juga digunakan untuk text, images
+              // child: Text(
+              //   "HELO WORLD",
+              //   style: TextStyle(
+              //     fontSize: 35,
+              //     color: Colors.white,
+              //   ),
+              // ),
+
+              alignment: Alignment.centerRight,
+              // fit: BoxFit.cover, //folow real szie
+
+              child: Image(
+                image: AssetImage("images/macbook.jpg")),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/////////////////////////////////////////////////////////////////
+
+32. Layout Builder
+
+* Constrain ialah cara mendapatkan layout builder
 
 
 
