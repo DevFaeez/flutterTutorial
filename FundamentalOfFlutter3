@@ -1,0 +1,9 @@
+40. HTTP Request / Rest Api
+
+* HTTP works as a request-response protocol between a client and server. Example: A client(fluuter App) send an HTTP request to the server; then the server returns a response to client
+* HTTP Method
+  1.Get: Fetch data(ambil data)
+  2.Post: Store Data(simpan dari client to database)
+  3.Patch: Update Data
+  4.Put: Replace Data
+  5.Delete: Delete Data
